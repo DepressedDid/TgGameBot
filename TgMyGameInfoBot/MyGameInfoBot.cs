@@ -76,7 +76,7 @@ namespace TgMyGameInfoBot
             {
 
                 var Game = message.Text.Replace("/gamedes ", "").ToLower();
-                var responce = await new HttpClient().GetAsync($"https://localhost:7151/GameInfo?GameName={Game}");
+                var responce = await new HttpClient().GetAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo?GameName={Game}");
                 var content = responce.Content.ReadAsStringAsync().Result;             
                 await botClient.SendTextMessageAsync(message.Chat.Id, content);
                 return;
@@ -84,7 +84,7 @@ namespace TgMyGameInfoBot
             if (message.Text.Contains("/redditposts "))
             {
                 var Game = message.Text.Replace("/redditposts ", "").ToLower();
-                var responce = await new HttpClient().GetAsync($"https://localhost:7151/GameInfo/{Game}/reddit");
+                var responce = await new HttpClient().GetAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo/{Game}/reddit");
                 var content = responce.Content.ReadAsStringAsync().Result;                               
                 await botClient.SendTextMessageAsync(message.Chat.Id, content);
                 return;                           
@@ -92,7 +92,7 @@ namespace TgMyGameInfoBot
             if (message.Text.Contains("/storelinks "))
             {
                 var Game = message.Text.Replace("/storelinks ", "").ToLower();
-                var responce = await new HttpClient().GetAsync($"https://localhost:7151/GameInfo/{Game}/stores");
+                var responce = await new HttpClient().GetAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo/{Game}/stores");
                 var content = responce.Content.ReadAsStringAsync().Result;
                 await botClient.SendTextMessageAsync(message.Chat.Id, content);
                 return;
@@ -100,7 +100,7 @@ namespace TgMyGameInfoBot
             if (message.Text.Contains("/gif "))
             {
                 var Game = message.Text.Replace("/gif ", "").ToLower();
-                var responce = await new HttpClient().GetAsync($"https://localhost:7151/GameInfo/gifs/search?GameName={Game}");
+                var responce = await new HttpClient().GetAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo/gifs/search?GameName={Game}");
                 var content = responce.Content.ReadAsStringAsync().Result;
                 List<string> urlList = new List<string>(content.Split(" "));
                 foreach (var url in urlList)
@@ -120,7 +120,7 @@ namespace TgMyGameInfoBot
             if(message.Text.Contains("/savegamelinks "))
             {
                 var Game = message.Text.Replace("/savegamelinks ", "").ToLower();
-                HttpResponseMessage response = await new HttpClient().PostAsync($"https://localhost:7151/GameInfo?message={message.Chat.Id}&GameName={Game}", new StringContent(System.Text.Json.JsonSerializer.Serialize(new { }), Encoding.Unicode, "application/json"));
+                HttpResponseMessage response = await new HttpClient().PostAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo?message={message.Chat.Id}&GameName={Game}", new StringContent(System.Text.Json.JsonSerializer.Serialize(new { }), Encoding.Unicode, "application/json"));
            
                 if (response.IsSuccessStatusCode)
                 {
@@ -136,7 +136,7 @@ namespace TgMyGameInfoBot
             }
             if (message.Text.Contains("/delete ()"))
             {
-                HttpResponseMessage response = await new HttpClient().DeleteAsync($"https://localhost:7151/GameInfo?ID={message.Chat.Id}");
+                HttpResponseMessage response = await new HttpClient().DeleteAsync($"https://mygameinfoapi.azurewebsites.net/GameInfo?ID={message.Chat.Id}");
                 if (response.IsSuccessStatusCode)
                 {
                     await botClient.SendTextMessageAsync(message.Chat.Id, "The list has been cleared");
@@ -151,7 +151,7 @@ namespace TgMyGameInfoBot
             }
             if (message.Text.Contains("/checklist"))
             {
-                var responce = await new HttpClient().GetAsync($"https://localhost:7151/DataBase?ID={message.Chat.Id}");
+                var responce = await new HttpClient().GetAsync($"https://mygameinfoapi.azurewebsites.net/DataBase?ID={message.Chat.Id}");
                 var content = responce.Content.ReadAsStringAsync().Result;
                 var Data = JsonConvert.DeserializeObject<DataModel>(content);
                 if (Data?.DataList != null)
